@@ -2,10 +2,13 @@
   "name": "drumbot",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
+    "build:ng": "ng build --aot",
+    "build:ng:prod": "ng build --prod",
+    "build:wasm": "node compile-wasm.js",
+    "build:prod": "npm run build:wasm && npm run build:ng:prod && node post-build.js",
+    "build": "npm run build:wasm && npm run build:ng",
+    "start:ng": "ng serve --aot",
+    "start": "npm run build:wasm && npm run start:ng",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
