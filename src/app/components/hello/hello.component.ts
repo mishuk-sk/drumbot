@@ -1,26 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { WasmService } from '../../services/wasm.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EmWasmComponent } from '../../em-wasm.component';
 import { environment } from '../../../environments/environment';
+import { InitializeWasmService } from '../../services/initialize-wasm.service';
 
 @Component({
   selector: 'app-hello',
   templateUrl: './hello.component.html',
   styleUrls: ['./hello.component.scss']
 })
-export class HelloComponent extends EmWasmComponent implements OnInit {
+export class HelloComponent implements OnInit, AfterViewInit {
   fib: number;
-  env= environment.wasmPath;
-  constructor() {
-    super();
-    this.setupWasm('FibonacciModule', 'fibonacci.js', mod =>
-      Object.assign(mod, {})
-    );
-    setTimeout(() => {
-      this.fib = this.module.ccall('fib', 'number', ['number'], [20]);
-    }, 2000);
+  private module: EmModule;
+  private initialized = false;
+  constructor(private wasmSrv: InitializeWasmService) {}
 
+  ngAfterViewInit() {
+    this.wasmSrv
+      .setupWasm('FibonacciModule', 'fibonacci.js', mod =>
+        Object.assign(mod, {})
+      )
+      .subscribe(mod =>
+        setTimeout(() => {
+          this.fib = mod.ccall('fibonacci', 'number', ['int'], [20]);
+        }, 1000)
+      );
   }
 
+  getFib(): number {
+    return this.module.ccall('fibonacci', 'number', ['int'], [20]);
+  }
   ngOnInit() {}
 }

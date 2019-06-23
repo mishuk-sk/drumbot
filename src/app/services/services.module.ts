@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WasmService } from './wasm.service';
 import { HttpClientModule } from '@angular/common/http';
+import { InitializeWasmService } from './initialize-wasm.service';
 
 @NgModule({
   declarations: [],
@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    WasmService
+    InitializeWasmService
   ]
 })
 export class ServicesModule { }

@@ -1,9 +1,15 @@
 #include <emscripten.h>
 
 EMSCRIPTEN_KEEPALIVE
-int fibonacciRec(int num) {
+int fibonacci(int num) {
   if (num <= 1)
     return 1;
 
-  return fibonacciRec(num - 1) + fibonacciRec(num - 2);
+  return fibonacci(num - 1) + fibonacci(num - 2);
 }
+int main(int argc, char **argv){
+
+  return 0;
+}
+
+
